@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869296870026",
+    "project_id": "social-light-9384d",
+    "storage_bucket": "social-light-9384d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869296870026:android:8bd50c7333467d215dd373",
+        "android_client_info": {
+          "package_name": "com.example.social_light"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869296870026-6t1v2dr0abij9f3ubil982hfum4vpvle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHQHpb5RWELX-C4Mm5kBPc1ZogFe4yyJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869296870026-6t1v2dr0abij9f3ubil982hfum4vpvle.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
