@@ -41,6 +41,9 @@ dependencies:
   google_fonts: ^5.1.0
   image_picker: ^1.0.4
   provider: ^6.0.5
+  shimmer: ^3.0.0
+  timeago: ^3.5.0
+  uuid: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

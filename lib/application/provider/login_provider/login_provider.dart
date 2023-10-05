@@ -38,7 +38,7 @@ class LogInProvider extends ChangeNotifier {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const BottomNavScreen(),
+              builder: (context) => const BottomNavScreen(count: 0),
             ),
             (route) => false);
       }

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/login_provider/login_provider.dart';
-import 'package:social_light/presentation/screens/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:social_light/presentation/screens/home_screen/home_screen.dart';
+
 import 'package:social_light/presentation/screens/signup_screen/signup.dart';
 import 'package:social_light/presentation/widgets/custom_text_field.dart';
 
@@ -57,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     context.read<LogInProvider>().passwordController,
                 secure: true,
                 icon: const Icon(Icons.lock),
-                hintText: 'Passwordd',
+                hintText: 'Password',
               ),
               Row(
                 children: [

@@ -7,7 +7,8 @@ import 'package:social_light/presentation/screens/profile_screen/profile_screen.
 import 'package:social_light/presentation/screens/search_screen/search_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
-  const BottomNavScreen({super.key});
+  final int count;
+  const BottomNavScreen({required this.count, super.key});
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
@@ -21,7 +22,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     const MessageScreen(),
     const ProfileScreen(),
   ];
-  var myIndex = 0;
+
+  late int myIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    myIndex = widget.count;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

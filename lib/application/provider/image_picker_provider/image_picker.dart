@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickProvider extends ChangeNotifier {
-  String? imageUrl = 'no-image';
+  String? imageUrl;
   String? imagePath;
+  String? returnedImage;
   void clearImage() {
-    imagePath = 'no-image';
+    returnedImage = null;
+    imageUrl = null;
+    imagePath = null;
     notifyListeners();
   }
 
@@ -21,7 +24,7 @@ class ImagePickProvider extends ChangeNotifier {
       Reference uploadImage =
           FirebaseStorage.instance.ref().child('image').child(fileName);
 
-      await uploadImage.putFile(File(returnedImage.path));
+      await uploadImage.putFile(File(imagePath!));
 
       imageUrl = await uploadImage.getDownloadURL();
       notifyListeners();

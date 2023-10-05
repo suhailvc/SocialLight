@@ -5,13 +5,15 @@ import 'package:social_light/domain/user_model/user_model.dart';
 import 'package:social_light/presentation/widgets/warning.dart';
 
 class SignUpProvider extends ChangeNotifier {
+  bool isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  signUpUser(context, String imagePath) async {
+  signUpUser(context, String? imagePath) async {
+    // bool isLoading = true;
     final String name = nameController.text;
     final String userName = userNameController.text;
     final String email = emailController.text;
@@ -48,15 +50,24 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
     String uid = _auth.currentUser!.uid;
     UserDetails user = UserDetails(
-      name: name,
-      username: userName,
-      email: email,
-      imgpath: imagePath,
-      password: password,
-      uid: uid,
-    );
+        name: name,
+        username: userName,
+        email: email,
+        imgpath: imagePath,
+        password: password,
+        uid: uid,
+        followers: [],
+        following: []);
     Map<String, dynamic> userData = user.toJson();
     FirebaseFirestore.instance.collection('users').doc(uid).set(userData);
     notifyListeners();
+    FirebaseFirestore.instance.collection('uids').add({
+      'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
+    });
+    FirebaseFirestore.instance
+        .collection('chat_list')
+        .doc(uid)
+        .set({"Uid": []});
+    false;
   }
 }
