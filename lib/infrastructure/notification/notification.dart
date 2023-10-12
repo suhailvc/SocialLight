@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_light/domain/notification_model/notification_model.dart';
+import 'package:social_light/infrastructure/push_notification/push_notification.dart';
 
-addNotification(String toId, String status) async {
+addNotification(String toId, String status, String token) async {
   var currentUid = FirebaseAuth.instance.currentUser!.uid;
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   var firebase =
@@ -17,6 +18,7 @@ addNotification(String toId, String status) async {
       time: DateTime.now().toString());
   Map<String, dynamic> mapNotification = notification.toJson();
   await firebase.collection('user').add(mapNotification);
+  sendPushNotification(token, 'user', status);
 }
 
 Future<List<NotificationModel>> getNotification() async {

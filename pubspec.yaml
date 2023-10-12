@@ -31,19 +31,28 @@ dependencies:
   cloud_firestore: ^4.9.1
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
+  device_info_plus: ^9.0.3
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
   firebase_database: ^10.2.5
+  firebase_messaging: ^14.6.9
   firebase_storage: ^11.2.6
   flutter:
     sdk: flutter
+  flutter_notification_channel: ^2.0.0
   font_awesome_flutter: ^10.5.0
   google_fonts: ^5.1.0
+  google_sign_in: ^6.1.5
+  http: ^1.1.0
   image_picker: ^1.0.4
   provider: ^6.0.5
   shimmer: ^3.0.0
   timeago: ^3.5.0
-  uuid: ^4.0.0
+  uuid: ^3.0.7
+  zego_uikit_prebuilt_call: ^3.15.3
+  zego_uikit_signaling_plugin: ^2.5.2
+  zego_zim: ^2.10.0+4
+  zego_zimkit: ^1.9.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

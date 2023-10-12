@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/add_post.dart/get_post_provider.dart';
+import 'package:social_light/application/provider/add_post.dart/post_comment.dart';
 import 'package:social_light/application/provider/post_like_provider/post_like_provider.dart';
+import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
+import 'package:social_light/domain/comment_model/comment_model.dart';
 import 'package:social_light/presentation/screens/post_comment_screen/widget/comment_field.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
 
@@ -140,41 +143,85 @@ class PostCommentScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 14,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            radius: 24,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/images/download (1).jpeg',
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          title: const Text(
-                            'Suhail',
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: const Text('photo comment',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          trailing: const Text('3h'),
-                        );
-                      },
-                    ),
+                    FutureBuilder(
+                        future: PostCommentPorvider().getCommentProvider(
+                            postUserId: userId, postId: postId),
+                        builder: (context, commentSnapshot) {
+                          // if (commentSnapshot.connectionState ==
+                          //     ConnectionState.waiting) {
+                          //   return const Center(
+                          //     child: CircularProgressIndicator(),
+                          //   );
+                          // }
+                          if (commentSnapshot.hasError) {
+                            return Text('Error: ${commentSnapshot.error}');
+                          } else if (!commentSnapshot.hasData ||
+                              commentSnapshot.data!.isEmpty) {
+                            return const Center(
+                              child: Text('No comments yet'),
+                            );
+                          } else {
+                            List<CommentModel> commentList =
+                                commentSnapshot.data!;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: commentList.length,
+                              itemBuilder: (context, index) {
+                                return FutureBuilder(
+                                    future: GetProfileDataProvider()
+                                        .getUserData(commentSnapshot
+                                            .data![index].commentedUserId!),
+                                    builder: (context, commentedUsersnapshot) {
+                                      if (!commentedUsersnapshot.hasData) {
+                                        return const SizedBox();
+                                      }
+                                      return ListTile(
+                                        leading: CircleAvatar(
+                                          radius: 24,
+                                          child: ClipOval(
+                                              child: commentedUsersnapshot
+                                                          .data!.imgpath ==
+                                                      null
+                                                  ? Image.asset(
+                                                      'assets/images/585e4bf3cb11b227491c339a.png',
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.network(
+                                                      commentedUsersnapshot
+                                                          .data!.imgpath!,
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                    )),
+                                        ),
+                                        title: Text(
+                                          commentedUsersnapshot.data!.name!,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        subtitle: Text(
+                                            commentSnapshot
+                                                .data![index].comment!,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        trailing: const Text('3h'),
+                                      );
+                                    });
+                              },
+                            );
+                          }
+                        }),
                   ],
                 );
               });
         }),
       ),
-      bottomSheet: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: CommentField(),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CommentField(postUserId: userId, postId: postId),
       ),
     );
   }

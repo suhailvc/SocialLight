@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/add_post.dart/get_post_provider.dart';
 import 'package:social_light/application/provider/home_screen_appbar/home_screen_app_bar.dart';
 import 'package:social_light/domain/user_model/post_model.dart';
+import 'package:social_light/infrastructure/push_notification/push_notification.dart';
+import 'package:social_light/presentation/screens/chat_screen/widget/on_user_login.dart';
 import 'package:social_light/presentation/screens/home_screen/widget/post_image.dart';
 import 'package:social_light/presentation/screens/notification_screen/notification_screen.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
@@ -14,8 +16,21 @@ import 'package:social_light/presentation/widgets/single_widget_shimmer.dart';
 
 ScrollDirection direction = ScrollDirection.reverse;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    onUserLogin();
+    saveToken();
+  }
 
   @override
   Widget build(BuildContext context) {

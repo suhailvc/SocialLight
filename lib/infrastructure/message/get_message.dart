@@ -12,7 +12,7 @@ Future<List<MessageModel>> getMessagefirebase(String userId) async {
   var messages = await FirebaseFirestore.instance
       .collection("message")
       .doc(uniqueId)
-      .collection("chat")
+      .collection('chat')
       .get();
   messageList = messages.docs.map((data) {
     Map<String, dynamic> mapData = data.data();

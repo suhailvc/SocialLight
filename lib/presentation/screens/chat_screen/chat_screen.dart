@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:social_light/presentation/screens/chat_screen/video_call.dart';
+import 'package:social_light/presentation/screens/chat_screen/widget/call_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,23 +10,30 @@ import 'package:social_light/application/provider/message_provider/message_provi
 import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
 import 'package:social_light/presentation/screens/chat_screen/widget/chat_field.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatelessWidget {
   final String otherUserId;
-  const ChatScreen({required this.otherUserId, super.key});
+  final String otherUserName;
+  const ChatScreen(
+      {required this.otherUserName, required this.otherUserId, super.key});
 
   @override
   Widget build(BuildContext context) {
+    var docName = FirebaseAuth.instance.currentUser!.uid + otherUserId;
+    List<String> charList = docName.split('');
+    charList.sort();
+    String uniqueId = charList.join();
     bool initialLoading = true;
     var size = MediaQuery.of(context).size;
 
     return FutureBuilder(
         future: GetProfileDataProvider().getUserData(otherUserId),
         builder: (context, userSnapshot) {
-          if (userSnapshot.connectionState == ConnectionState.waiting &&
-              initialLoading) {
-            return const ShimmerLoading(itemCount: 8, containerHeight: 0);
-          }
+          // if (userSnapshot.connectionState == ConnectionState.waiting &&
+          //     initialLoading) {
+          //   return const ShimmerLoading(itemCount: 8, containerHeight: 0);
+          // }
           initialLoading = false;
           if (!userSnapshot.hasData) {
             return const Center(
@@ -55,18 +64,23 @@ class ChatScreen extends StatelessWidget {
                       color: Colors.black, fontWeight: FontWeight.bold)),
               centerTitle: true,
               actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      FontAwesomeIcons.phone,
-                      color: Colors.black,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      FontAwesomeIcons.video,
-                      color: Colors.black,
-                    ))
+                actionButton(true, otherUserId, otherUserName),
+                actionButton(false, otherUserId, otherUserName)
+                // IconButton(
+                //     onPressed: () {
+                //       ZegoSendCallInvitationButton(
+                //         isVideoCall: true,
+                //         resourceID:
+                //             "zegouikit_call", // For offline call notification
+                //         invitees: [
+                //           ZegoUIKitUser(
+                //             id: '123',
+                //             name: 'suhail',
+                //           ),
+                //         ],
+                //       );
+                //     },
+                //     icon: Icon(Icons.video_call))
               ],
             ),
             body: Consumer<MessageProvider>(builder: (context, value, child) {

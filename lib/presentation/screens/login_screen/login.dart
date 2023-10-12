@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/login_provider/login_provider.dart';
+import 'package:social_light/infrastructure/sign_in/temp.dart';
 
 import 'package:social_light/presentation/screens/signup_screen/signup.dart';
 import 'package:social_light/presentation/widgets/custom_text_field.dart';
@@ -17,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    //var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -107,6 +108,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  signinWithGoogle(context: context);
+                },
+                child: Container(
+                  width: size.width * 0.7,
+                  height: size.height * 0.06,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(221, 78, 69, 206),
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
+                    border: Border.all(
+                      color: const Color.fromARGB(221, 78, 69, 206),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'G  ',
+                        style: GoogleFonts.roboto(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const Text(
+                        'Login with google',
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
               RichText(

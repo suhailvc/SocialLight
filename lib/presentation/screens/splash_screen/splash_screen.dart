@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_light/infrastructure/push_notification/push_notification.dart';
 import 'package:social_light/presentation/screens/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:social_light/presentation/screens/chat_screen/widget/on_user_login.dart';
 import 'package:social_light/presentation/screens/login_screen/login.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -44,8 +46,12 @@ wait(context) async {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
+            // onUserLogin();
+            //  saveToken();
             if (snapshot.hasData) {
-              return const BottomNavScreen(count: 0,);
+              return const BottomNavScreen(
+                count: 0,
+              );
             }
             if (snapshot.hasError) {
               return Center(

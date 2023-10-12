@@ -7,7 +7,9 @@ import 'package:social_light/application/provider/notification_provider/notifica
 
 class FollowButton extends StatelessWidget {
   final String otherUserId;
-  const FollowButton({required this.otherUserId, super.key});
+  final String token;
+  const FollowButton(
+      {required this.token, required this.otherUserId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class FollowButton extends StatelessWidget {
                   if (followSnapshot.data == true) {
                     Provider.of<NotificationProvider>(context, listen: false)
                         .addNotificationProvider(
-                            otherUserId, 'is started following you');
+                            otherUserId, 'is started following you', token);
                   }
                 },
                 style: ElevatedButton.styleFrom(

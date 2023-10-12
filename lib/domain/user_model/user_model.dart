@@ -7,6 +7,7 @@ class UserDetails {
   String? uid;
   List<String>? followers;
   List<String>? following;
+  String? pushToken;
 
   UserDetails(
       {this.name,
@@ -16,7 +17,8 @@ class UserDetails {
       this.imgpath,
       this.uid,
       this.followers,
-      this.following});
+      this.following,
+      this.pushToken});
 
   UserDetails.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -27,6 +29,7 @@ class UserDetails {
     uid = json['uid'];
     followers = json['followers'].cast<String>();
     following = json['following'].cast<String>();
+    pushToken = json['pushToken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class UserDetails {
     data['uid'] = uid;
     data['followers'] = followers;
     data['following'] = following;
+    data['pushToken'] = pushToken;
     return data;
   }
 }

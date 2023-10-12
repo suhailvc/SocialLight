@@ -56,6 +56,7 @@ class OtherUserProfileScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ChatScreen(
+                                otherUserName: userSnapshot.data!.name!,
                                 otherUserId: userId,
                               ),
                             ));
@@ -100,7 +101,9 @@ class OtherUserProfileScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: sizeQuery.height * 0.02),
-                          FollowButton(otherUserId: userId),
+                          FollowButton(
+                              otherUserId: userId,
+                              token: userSnapshot.data!.pushToken!),
                           SizedBox(
                             width: sizeQuery.height * 0.02,
                           ),

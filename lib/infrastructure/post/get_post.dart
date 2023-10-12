@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_light/application/provider/follow_provider/follow_provider.dart';
 import 'package:social_light/domain/user_model/post_model.dart';
 
 Future<List<PostModel>> getAllPost(String? userUid) async {
   List<PostModel> allposts = [];
   try {
+    String currrentUId = FirebaseAuth.instance.currentUser!.uid;
     var collectionData =
         await FirebaseFirestore.instance.collection("uids").get();
     var docsData = collectionData.docs;
@@ -14,7 +16,7 @@ Future<List<PostModel>> getAllPost(String? userUid) async {
       var uidData = docsData[i];
       userUid = uidData['uid'];
       bool following = await FollowProvider().isFollowing(userUid!);
-      if (following) {
+      if (following || userUid == currrentUId) {
         var postData = await FirebaseFirestore.instance
             .collection("post")
             .doc(userUid)

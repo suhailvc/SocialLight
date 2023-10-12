@@ -139,6 +139,7 @@ class SearchScreen extends StatelessWidget {
                                   ),
                                 ),
                                 trailing: FollowButton(
+                                    token: userList[index].pushToken!,
                                     otherUserId:
                                         userList[index].uid.toString())),
                           );

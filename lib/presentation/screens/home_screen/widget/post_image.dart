@@ -115,7 +115,9 @@ class PostImage extends StatelessWidget {
                                 Provider.of<NotificationProvider>(context,
                                         listen: false)
                                     .addNotificationProvider(
-                                        userId, 'is Liked your post');
+                                        userId,
+                                        'is Liked your post',
+                                        snapshot.data!.pushToken!);
                               }
                             },
                             child: likeSnapshot.data == true

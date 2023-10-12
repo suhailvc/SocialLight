@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
 import 'package:social_light/domain/user_model/post_model.dart';
+import 'package:social_light/presentation/screens/chat_screen/widget/on_user_login.dart';
 import 'package:social_light/presentation/screens/edit_profile/edit_profile.dart';
 import 'package:social_light/presentation/screens/login_screen/login.dart';
 import 'package:social_light/presentation/screens/post_comment_screen/post_comment_screen.dart';
@@ -365,6 +366,7 @@ class DrawerWidget extends StatelessWidget {
                                   await FirebaseAuth.instance.signOut();
                                   log(FirebaseAuth.instance.currentUser
                                       .toString());
+                                  onUserLogout();
                                   navigator.pushAndRemoveUntil(
                                       MaterialPageRoute(
                                         builder: (context) =>
