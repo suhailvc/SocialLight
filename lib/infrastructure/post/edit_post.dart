@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-editPost(String postId, String caption) {
+editPost(String postId, String caption,String newUrl) {
   try {
     var userId = FirebaseAuth.instance.currentUser!.uid;
     FirebaseFirestore.instance
@@ -11,7 +11,7 @@ editPost(String postId, String caption) {
         .doc(userId)
         .collection("this_user_post")
         .doc(postId)
-        .update({"caption": caption});
+        .update({"caption": caption, "imgUrl": newUrl});
   } catch (e) {
     log("exception found $e");
   }

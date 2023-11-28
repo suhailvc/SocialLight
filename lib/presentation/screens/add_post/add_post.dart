@@ -9,14 +9,9 @@ import 'package:social_light/presentation/screens/add_post/widget/add_post_botto
 import 'package:social_light/presentation/screens/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:social_light/presentation/widgets/warning.dart';
 
-class AddPost extends StatefulWidget {
+class AddPost extends StatelessWidget {
   const AddPost({super.key});
 
-  @override
-  State<AddPost> createState() => _AddPostState();
-}
-
-class _AddPostState extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
     TextEditingController descriptionController = TextEditingController();
@@ -24,6 +19,7 @@ class _AddPostState extends State<AddPost> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: const SizedBox(),
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 226, 231, 231),
         title: Text(

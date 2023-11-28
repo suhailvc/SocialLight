@@ -16,6 +16,7 @@ class SearchScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const SizedBox(),
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 226, 231, 231),
         title: Text(
@@ -139,7 +140,7 @@ class SearchScreen extends StatelessWidget {
                                   ),
                                 ),
                                 trailing: FollowButton(
-                                    token: userList[index].pushToken!,
+                                    token: userList[index].pushToken ?? '',
                                     otherUserId:
                                         userList[index].uid.toString())),
                           );

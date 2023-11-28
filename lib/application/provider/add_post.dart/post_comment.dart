@@ -28,4 +28,12 @@ class PostCommentPorvider extends ChangeNotifier {
     ChangeNotifier();
     return commentList;
   }
+
+  Future<int> getCommentCountProvider(
+      {required postId, required postUserId}) async {
+    int commentCount =
+        await getCommentCount(postId: postId, postUserId: postUserId);
+    ChangeNotifier();
+    return commentCount;
+  }
 }

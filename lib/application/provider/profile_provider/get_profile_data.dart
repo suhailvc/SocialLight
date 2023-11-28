@@ -17,6 +17,7 @@ class GetProfileDataProvider extends ChangeNotifier {
   //TextEditingController passwordController = TextEditingController();
   List<PostModel> allposts = [];
   Future<UserDetails?> getUserData(String userId) async {
+    print('........................user data');
     DocumentSnapshot data =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
     if (data.exists) {

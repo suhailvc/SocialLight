@@ -6,10 +6,11 @@ import 'package:social_light/application/provider/add_post.dart/get_post_provide
 import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
 import 'package:social_light/core/constant.dart';
 import 'package:social_light/presentation/screens/chat_screen/chat_screen.dart';
-import 'package:social_light/presentation/screens/profile_screen/profile_post_full_view.dart';
+import 'package:social_light/presentation/screens/post_comment_screen/post_comment_screen.dart';
 import 'package:social_light/presentation/screens/profile_screen/widget/common_button.dart';
 import 'package:social_light/presentation/screens/profile_screen/widget/profile_image_widget.dart';
 import 'package:social_light/presentation/widgets/follow_button.dart';
+import 'package:social_light/presentation/widgets/followers_list.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
 
 class OtherUserProfileScreen extends StatelessWidget {
@@ -111,18 +112,40 @@ class OtherUserProfileScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              commonButton(
-                                sizeQuery.width * 0.23,
-                                'Followers',
-                                userSnapshot.data!.followers!.length.toString(),
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FollowersList(
+                                          name: "Followers",
+                                          followers:
+                                              userSnapshot.data!.followers),
+                                    )),
+                                child: commonButton(
+                                  sizeQuery.width * 0.23,
+                                  'Followers',
+                                  userSnapshot.data!.followers!.length
+                                      .toString(),
+                                ),
                               ),
                               SizedBox(
                                 width: sizeQuery.height * 0.02,
                               ),
-                              commonButton(
-                                sizeQuery.width * 0.23,
-                                'Following',
-                                userSnapshot.data!.following!.length.toString(),
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FollowersList(
+                                          name: "Following",
+                                          followers:
+                                              userSnapshot.data!.following),
+                                    )),
+                                child: commonButton(
+                                  sizeQuery.width * 0.23,
+                                  'Following',
+                                  userSnapshot.data!.following!.length
+                                      .toString(),
+                                ),
                               ),
                             ],
                           ),
@@ -135,15 +158,23 @@ class OtherUserProfileScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Consumer<GetPostProvider>(builder: (context, value, child) {
+                      // bool initial = true;
                       return FutureBuilder(
                           future: GetProfileDataProvider().getPost(userId),
                           builder: (context, postSnapshot) {
-                            if (postSnapshot.connectionState ==
-                                ConnectionState.waiting) {
+                            // if (postSnapshot.connectionState ==
+                            //         ConnectionState.waiting &&
+                            //     initial == true) {
+                            //   return SizedBox(
+                            //     height: sizeQuery.height * 0.3,
+                            //     child: const ShimmerLoading(
+                            //         itemCount: 3, containerHeight: 0),
+                            //   );
+                            // }
+                            //   initial = false;
+                            if (!postSnapshot.hasData) {
                               return SizedBox(
                                 height: sizeQuery.height * 0.3,
-                                child: const ShimmerLoading(
-                                    itemCount: 3, containerHeight: 0),
                               );
                             }
                             return GridView.builder(
@@ -161,9 +192,13 @@ class OtherUserProfileScreen extends StatelessWidget {
                                   onTap: () => Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            PostFullView(userId: userId),
-                                      )),
+                                          builder: (context) =>
+                                              PostCommentScreen(
+                                                  userId: userId,
+                                                  postId: postSnapshot
+                                                      .data![index].postId!,
+                                                  name: userSnapshot
+                                                      .data!.name!))),
                                   child: SizedBox(
                                       child: Image.network(
                                           postSnapshot.data![index].imgUrl!,

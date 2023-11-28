@@ -16,10 +16,12 @@ import 'package:social_light/application/provider/notification_provider/notifica
 import 'package:social_light/application/provider/post_like_provider/post_like_provider.dart';
 import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
 import 'package:social_light/application/provider/search_provider/search_provider.dart';
+import 'package:social_light/application/provider/signup_provider/google_login.dart';
 import 'package:social_light/application/provider/signup_provider/signup_provider.dart';
 import 'package:social_light/core/constant.dart';
 import 'package:social_light/infrastructure/push_notification/push_notification.dart';
 import 'package:social_light/presentation/screens/chat_screen/widget/on_user_login.dart';
+import 'package:social_light/presentation/screens/signup_screen/google_sign-up.dart';
 import 'package:social_light/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
@@ -116,12 +118,15 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => PostCommentPorvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GoogleLoginSignUpProvider(),
         )
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        //home: PostFullView(),
+        // home: GoogleUser(),
         home: const SplashScreen(),
       ),
     );

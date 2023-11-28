@@ -7,6 +7,7 @@ import 'package:social_light/infrastructure/post/get_post.dart';
 class GetPostProvider extends ChangeNotifier {
   String? userUid;
   List<PostModel> allposts = [];
+  PostModel? post;
   Future<List<PostModel>> getPost() async {
     allposts = await getAllPost(userUid);
     notifyListeners();
@@ -14,8 +15,9 @@ class GetPostProvider extends ChangeNotifier {
   }
 
   Future<PostModel?> getSinglePostProvider(
-      String postId, String postUserId) async {
-    PostModel? post;
+      String postId, String postUserId, String screen) async {
+    print('--------------------$screen');
+
     post = await getSinglePost(postId, postUserId);
     notifyListeners();
     return post;
@@ -26,8 +28,9 @@ class GetPostProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  editPostProvider({required String postId, required String caption}) {
-    editPost(postId, caption);
+  editPostProvider(
+      {required String postId, required String caption, required newUrl}) {
+    editPost(postId, caption, newUrl);
     notifyListeners();
   }
 }

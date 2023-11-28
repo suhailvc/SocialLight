@@ -21,6 +21,21 @@ addNotification(String toId, String status, String token) async {
   sendPushNotification(token, 'user', status);
 }
 
+deleteNotification(String toId, String status, String token) async {
+  var currentUid = FirebaseAuth.instance.currentUser!.uid;
+  String id = DateTime.now().millisecondsSinceEpoch.toString();
+  var firebase =
+      FirebaseFirestore.instance.collection('notification').doc(toId);
+  NotificationModel notification = NotificationModel(
+      currentUserId: currentUid,
+      toId: toId,
+      id: id,
+      status: status,
+      time: DateTime.now().toString());
+  Map<String, dynamic> mapNotification = notification.toJson();
+  await firebase.collection('user').add(mapNotification);
+}
+
 Future<List<NotificationModel>> getNotification() async {
   List<NotificationModel> notificationList = [];
   var currentUid = FirebaseAuth.instance.currentUser!.uid;

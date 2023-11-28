@@ -100,13 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const Center(
                         child: Text('No data'),
                       );
-                      //return const SizedBox();
-                      //Expanded(
-                      //child: ShimmerLoading(
-                      // containerHeight: sizeQuery.height * 0.2,
-                      // itemCount: 3,
-                      // )
-                      //);
                     }
 
                     return NotificationListener<UserScrollNotification>(

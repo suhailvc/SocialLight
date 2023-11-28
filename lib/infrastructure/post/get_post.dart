@@ -6,6 +6,7 @@ import 'package:social_light/application/provider/follow_provider/follow_provide
 import 'package:social_light/domain/user_model/post_model.dart';
 
 Future<List<PostModel>> getAllPost(String? userUid) async {
+  print('------------------------------alllepost');
   List<PostModel> allposts = [];
   try {
     String currrentUId = FirebaseAuth.instance.currentUser!.uid;
@@ -41,6 +42,7 @@ Future<List<PostModel>> getAllPost(String? userUid) async {
 }
 
 Future<PostModel?> getSinglePost(String postId, String postUserId) async {
+  print('------------------------------singlepost');
   PostModel post;
   try {
     var postData = await FirebaseFirestore.instance
@@ -49,9 +51,15 @@ Future<PostModel?> getSinglePost(String postId, String postUserId) async {
         .collection('this_user_post')
         .doc(postId)
         .get();
-    Map<String, dynamic> mapData = postData.data()!;
-    post = PostModel.fromJson(mapData);
-    return post;
+    if (postData.exists) {
+      Map<String, dynamic> mapData = postData.data()!;
+      post = PostModel.fromJson(mapData);
+      print('object');
+      return post;
+    } else {
+      log("Post not found");
+      return null;
+    }
   } catch (e) {
     log('Exception found $e');
     return null;

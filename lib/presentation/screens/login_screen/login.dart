@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/login_provider/login_provider.dart';
 import 'package:social_light/infrastructure/sign_in/temp.dart';
+import 'package:social_light/presentation/screens/login_screen/forgot_password_screen.dart';
 
 import 'package:social_light/presentation/screens/signup_screen/signup.dart';
 import 'package:social_light/presentation/widgets/custom_text_field.dart';
@@ -62,7 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 children: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ForgotPasswordScreen(),
+                            ));
+                      },
                       child: const Text(
                         'Forgot your password?',
                         style: TextStyle(

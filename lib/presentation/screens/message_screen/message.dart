@@ -7,6 +7,7 @@ import 'package:social_light/application/provider/message_provider/message_provi
 import 'package:social_light/domain/message_model/message_model.dart';
 import 'package:social_light/presentation/screens/chat_screen/chat_screen.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
@@ -29,6 +30,7 @@ class MessageScreen extends StatelessWidget {
             ),
           ),
           centerTitle: true,
+          leading: const SizedBox(),
         ),
         body: //Consumer<GetAllChatUsersProvider>(
             //builder: (context, chatUserValue, child) {
@@ -74,62 +76,70 @@ class MessageScreen extends StatelessWidget {
                             ),
                           ),
                           key: Key(index.toString()),
-                          child: FutureBuilder<MessageModel?>(
-                              future: MessageProvider().getLastMessageProvider(
-                                  chatUserSnapshot.data![index].uid!),
-                              builder: (context, lastMessageSnapshot) {
-                                if (lastMessageSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else if (!lastMessageSnapshot.hasData) {
-                                  return const Center(
-                                      child: Text('No messages'));
-                                }
-                                return ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage: const AssetImage(
-                                      'assets/images/download (1).jpeg',
+                          child: Consumer<MessageProvider>(
+                              builder: (context, value, child) {
+                            return FutureBuilder<MessageModel?>(
+                                future: MessageProvider()
+                                    .getLastMessageProvider(
+                                        chatUserSnapshot.data![index].uid!),
+                                builder: (context, lastMessageSnapshot) {
+                                  if (lastMessageSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (!lastMessageSnapshot.hasData) {
+                                    return const Center(
+                                        child: Text('No messages'));
+                                  }
+                                  DateTime lastMessageTime = DateTime.parse(
+                                      lastMessageSnapshot.data!.sentTime!);
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: const AssetImage(
+                                        'assets/images/download (1).jpeg',
+                                      ),
+                                      radius: 23,
+                                      child: ClipOval(
+                                        child: chatUserSnapshot
+                                                    .data![index].imgpath !=
+                                                null
+                                            ? Image.network(
+                                                chatUserSnapshot
+                                                    .data![index].imgpath
+                                                    .toString(),
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.asset(
+                                                "assets/images/585e4bf3cb11b227491c339a.png",
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
                                     ),
-                                    radius: 23,
-                                    child: ClipOval(
-                                      child: chatUserSnapshot
-                                                  .data![index].imgpath !=
-                                              null
-                                          ? Image.network(
-                                              chatUserSnapshot
-                                                  .data![index].imgpath
-                                                  .toString(),
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.asset(
-                                              "assets/images/585e4bf3cb11b227491c339a.png",
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ),
+                                    title: Text(
+                                      chatUserSnapshot.data![index].name!,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                  ),
-                                  title: Text(
-                                    chatUserSnapshot.data![index].name!,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  subtitle:
-                                      Text(lastMessageSnapshot.data!.message!),
-                                  // }),
-                                  trailing:
-                                      Text(lastMessageSnapshot.data!.sentTime!),
-                                );
-                              }),
+                                    subtitle: Text(
+                                        lastMessageSnapshot.data!.message!),
+                                    // }),
+                                    trailing: Text(timeago
+                                        .format(lastMessageTime,
+                                            allowFromNow: true)
+                                        .toString()),
+                                  );
+                                });
+                          }),
                         ),
                       );
                     },
                   );
                 })
-        //}//)
+        //})
         );
   }
 }

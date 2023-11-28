@@ -5,11 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/profile_provider/get_profile_data.dart';
 import 'package:social_light/domain/user_model/post_model.dart';
+import 'package:social_light/presentation/about_app/about_app.dart';
 import 'package:social_light/presentation/screens/chat_screen/widget/on_user_login.dart';
 import 'package:social_light/presentation/screens/edit_profile/edit_profile.dart';
 import 'package:social_light/presentation/screens/login_screen/login.dart';
 import 'package:social_light/presentation/screens/post_comment_screen/post_comment_screen.dart';
+import 'package:social_light/presentation/screens/privacy_policy/privacy_policy.dart';
 import 'package:social_light/presentation/screens/profile_screen/widget/common_button.dart';
+import 'package:social_light/presentation/widgets/followers_list.dart';
 import 'package:social_light/presentation/screens/profile_screen/widget/more_horiz_sheet.dart';
 import 'package:social_light/presentation/widgets/shimmer.dart';
 
@@ -116,18 +119,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            commonButton(
-                              sizeQuery.width * 0.23,
-                              'Followers',
-                              snapshot.data!.followers!.length.toString(),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FollowersList(
+                                        name: 'Followers',
+                                        followers: snapshot.data!.followers!),
+                                  )),
+                              child: commonButton(
+                                sizeQuery.width * 0.23,
+                                'Followers',
+                                snapshot.data!.followers!.length.toString(),
+                              ),
                             ),
                             SizedBox(
                               width: sizeQuery.height * 0.02,
                             ),
-                            commonButton(
-                              sizeQuery.width * 0.23,
-                              'Following',
-                              snapshot.data!.following!.length.toString(),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FollowersList(
+                                        name: "Following",
+                                        followers: snapshot.data!.following!),
+                                  )),
+                              child: commonButton(
+                                sizeQuery.width * 0.23,
+                                'Following',
+                                snapshot.data!.following!.length.toString(),
+                              ),
                             ),
                           ],
                         ),
@@ -180,7 +201,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   moreHorizBottomSheet(
                                       context,
                                       postSnapshot.data![index].postId!,
-                                      FirebaseAuth.instance.currentUser!.uid);
+                                      4,
+                                      postSnapshot.data![index].userId!,
+                                      postSnapshot.data![index].imgUrl!,
+                                      postSnapshot.data![index].caption);
                                   // showDialog(
                                   //   context: context,
                                   //   builder: (context) => AlertDialog(
@@ -315,36 +339,33 @@ class DrawerWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Theme',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.toggle_on,
-                          size: 38,
-                        ))
-                  ],
-                ),
-                SizedBox(height: sizeQuery.height * 0.0001),
-                const Text(
-                  'Privacy Policy',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                SizedBox(height: sizeQuery.height * 0.02),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PrivacyPolicy(),
+                        ));
+                  },
+                  child: const Text(
+                    'Privacy Policy',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(height: sizeQuery.height * 0.02),
-                const Text(
-                  'Share App',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: sizeQuery.height * 0.02),
-                const Text(
-                  'About Us',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AboutApp(),
+                        ));
+                  },
+                  child: const Text(
+                    'About Us',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
                 ),
                 SizedBox(height: sizeQuery.height * 0.02),
                 GestureDetector(

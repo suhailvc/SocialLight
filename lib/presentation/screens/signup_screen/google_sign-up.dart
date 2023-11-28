@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:social_light/application/provider/image_picker_provider/image_picker.dart';
+import 'package:social_light/application/provider/signup_provider/google_login.dart';
+import 'package:social_light/presentation/screens/signup_screen/widget/google_sign_up.dart';
 //import 'package:social_light/presentation/screens/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:social_light/presentation/screens/signup_screen/widget/sign_up_button.dart';
 import 'package:social_light/presentation/widgets/custom_text_field.dart';
@@ -37,13 +39,14 @@ class GoogleUser extends StatelessWidget {
                   ),
             ],
           ),
-          SizedBox(height: size.height * 0.1),
+          SizedBox(height: size.height * 0.01),
           //  const AppLogo(size: 50, color: Colors.white),
           const Text(
             'Add your Details',
-            style: TextStyle(color: Colors.teal, fontSize: 13),
+            style: TextStyle(
+                color: Color.fromARGB(221, 78, 69, 206), fontSize: 20),
           ),
-          SizedBox(height: size.height * 001), const SizedBox(height: 32),
+          SizedBox(height: size.height * 0.05),
           Consumer<ImagePickProvider>(
             builder: (context, value, child) {
               //   String? imgPath = value.imagePath;
@@ -51,7 +54,8 @@ class GoogleUser extends StatelessWidget {
                 width: size.width * 0.3,
                 height: size.height * 0.15,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 5, color: Colors.blue),
+                  border: Border.all(
+                      width: 5, color: const Color.fromARGB(221, 78, 69, 206)),
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
@@ -93,14 +97,30 @@ class GoogleUser extends StatelessWidget {
               );
             },
           ),
-          // SpaceWithHeight(size: size),
 
-          SizedBox(height: size.height * 001),
-          // SizedBox(size: size),
-          const CustomTextField(secure: false, icon: Icon(Icons.abc)),
-          SizedBox(height: size.height * 001),
-          // SpaceWithHeight(size: size),
-          const SignUpButton(),
+          SizedBox(height: size.height * 0.05),
+
+          CustomTextField(
+            dataController:
+                Provider.of<GoogleLoginSignUpProvider>(context, listen: false)
+                    .nameController,
+            secure: false,
+            icon: const Icon(Icons.person),
+            hintText: 'name',
+          ),
+
+          SizedBox(height: size.height * 0.029),
+          CustomTextField(
+            dataController:
+                Provider.of<GoogleLoginSignUpProvider>(context, listen: false)
+                    .userNameController,
+            secure: false,
+            icon: const Icon(Icons.person),
+            hintText: 'User name',
+          ),
+          SizedBox(height: size.height * 0.029),
+
+          const GoogleSignUpButton(),
           // RoundedTealTextFormField(
           //     controller: Provider.of<SignUpProvider>(context)
           //         .usernameController,
@@ -124,7 +144,6 @@ class GoogleUser extends StatelessWidget {
           //     text: 'Add',
           //     isLoading:
           //         Provider.of<GoogleInProvider>(context).isLoading),
-          SizedBox(height: size.height * 001),
         ],
       ),
     )));

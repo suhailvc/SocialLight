@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_light/domain/message_model/message_model.dart';
+import 'package:social_light/infrastructure/message/delete_message.dart';
 import 'package:social_light/infrastructure/message/get_last_message.dart';
 import 'package:social_light/infrastructure/message/get_message.dart';
 import 'package:social_light/infrastructure/message/send_message.dart';
@@ -21,5 +22,10 @@ class MessageProvider extends ChangeNotifier {
     MessageModel? lastMessage = await getLastMessage(userId);
     notifyListeners();
     return lastMessage;
+  }
+
+  deleteMessageProvider(String otherUid, String docId) async{
+   await deleteMessage(otherUid, docId);
+    notifyListeners();
   }
 }

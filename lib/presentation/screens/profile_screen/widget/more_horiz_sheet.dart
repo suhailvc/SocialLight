@@ -10,9 +10,12 @@ import 'package:social_light/application/provider/profile_provider/get_profile_d
 import 'package:social_light/presentation/screens/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:social_light/presentation/screens/edit_post/edit_post.dart';
 
-moreHorizBottomSheet(context, String postId, String userId) {
+moreHorizBottomSheet(context, String postId, int screenNumber,
+    String postUserId, String imgUrl, String? newCaption) {
   var size = MediaQuery.of(context).size;
   showModalBottomSheet(
+    useSafeArea: true,
+    showDragHandle: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
@@ -30,7 +33,11 @@ moreHorizBottomSheet(context, String postId, String userId) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditPostScreen(postId: postId),
+                      builder: (context) => EditPostScreen(
+                          postUserId: postUserId,
+                          postId: postId,
+                          imgUrl: imgUrl,
+                          caption: newCaption),
                     ));
               },
               child: Row(
@@ -85,8 +92,9 @@ moreHorizBottomSheet(context, String postId, String userId) {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BottomNavScreen(count: 4),
+                                  builder: (context) => BottomNavScreen(
+                                    count: screenNumber,
+                                  ),
                                 ));
                           },
                         ),
